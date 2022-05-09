@@ -53,17 +53,23 @@ class Ui_MainWindow(object):
             for word in message.split():
                 if word in find_synonyms('help'):
                     command_found = True
-                    self.textBrowser.append("Example command: find animals by feature aquatic, predator" + '\n')
+                    self.textBrowser.append("Example command: find animals by feature aquatic, predator" +
+                                            'Also you can get list of features using command: list' + '\n')
                 elif word in find_synonyms('find'):
                     command_found = True
                     keywords = find_synonyms('features')
                     for keyword in keywords:
                         if keyword in message:
                             self.execute_command(message.partition(keyword)[2])
-                elif not command_found:
-                    self.textBrowser.append("Command not found" + '\n')
+                elif word == 'list':
+                    command_found = True
+                    features = get_header()
+                    for feature in features:
+                        self.textBrowser.append(feature + '\n')
         else:
             self.textBrowser.append("Please, input message" + '\n')
+        if not command_found:
+            self.textBrowser.append("Command not recognized" + '\n')
 
     def execute_command(self, params):
         header = get_header()
